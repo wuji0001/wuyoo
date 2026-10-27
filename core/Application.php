@@ -16,6 +16,7 @@ use Wuyoo\Database\Database;
 use Wuyoo\Database\Mongo;
 use Wuyoo\Http\ExceptionHandler;
 use Wuyoo\Http\HttpException;
+use Wuyoo\Http\PaginationInput;
 use Wuyoo\Http\Request;
 use Wuyoo\Http\Response;
 use Wuyoo\Routing\ControllerResolver;
@@ -88,16 +89,10 @@ final class Application
             }
             DB::enter(fn () => $scope->get(Database::class));
             $dbEntered = true;
-            Paginator::currentPageResolver(function (string $name = 'page') use ($scope): int {
-                $page = $scope->get(Request::class)->query($name, 1);
-                return is_scalar($page) && filter_var($page, FILTER_VALIDATE_INT) !== false && (int) $page > 0 ? (int) $page : 1;
-            });
+            Paginator::currentPageResolver(fn (string $name = 'page'): int => PaginationInput::page($scope->get(Request::class)->query($name, 1)));
             Paginator::currentPathResolver(fn () => $scope->get(Request::class)->encodedPath);
             Paginator::queryStringResolver(fn () => $scope->get(Request::class)->query());
-            CursorPaginator::currentCursorResolver(function (string $name = 'cursor') use ($scope): ?Cursor {
-                $cursor = $scope->get(Request::class)->query($name);
-                return is_string($cursor) ? Cursor::fromEncoded($cursor) : null;
-            });
+            CursorPaginator::currentCursorResolver(fn (string $name = 'cursor'): ?Cursor => PaginationInput::cursor($scope->get(Request::class)->query($name)));
             Paginator::viewFactoryResolver(fn () => $scope->get(Blade::class)->factory());
             Paginator::defaultView('pagination.default');
             Paginator::defaultSimpleView('pagination.simple');

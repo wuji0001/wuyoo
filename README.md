@@ -156,6 +156,27 @@ $app->using(new Wuyoo\Http\Request(), function (Wuyoo\Support\Scope $scope) {
 
 `DB` 是仅在作用域内激活的兼容桥，不是持久连接单例。finally 中回滚未结束事务、断开连接、清理 Model resolver/boot、Paginator 和 Session 数据。
 普通页码、游标（默认 `cursor`，支持自定义名称）和 query 都来自有效 Request；缺失或不能解码的游标使用第一页。分页路径使用 `Request::encodedPath`，Router/Action 继续使用解码后的 `path`。Query String 的保留遵循上游 `withQueryString()` / `appends()` API，不隐式追加所有参数。
+请求分页边界：默认 `page` 与自定义页码名均限制为 **1–1,000,000**；超过上限返回 400，原有缺失、非数字或非正页码仍回到第一页。业务每页数量建议固定；若允许客户端指定，使用 `PaginationInput::perPage()`，只接受 **1–1,000** 的整数。二者结合可避免 offset 溢出，并限制单页取数。
+
+默认请求游标使用官方解码器，不能解码的输入仍回到第一页；能解码但方向不是 boolean、参数值不是非 null 标量，或缺少查询实际读取的排序键时返回 400。空字符串、0 和 false 仍是合法标量值。多列排序和查询别名按实际读取键检查，不假定排序列一定叫 id。应用仍须按业务字段类型校验值，例如数字主键格式、日期范围；通用边界不会猜测数据库列类型。
+
+默认 Request resolver 自动应用以上页码/游标检查。直接传给原版 Builder 的显式参数仍由调用方负责；来自客户端时使用同一边界，例如：
+
+```php
+use Wuyoo\Http\PaginationInput;
+
+$size = PaginationInput::perPage($request->query('per_page', 20));
+$page = Entry::orderBy('id')->paginate($size); // 默认 page 已经过请求边界
+$explicit = Entry::orderBy('id')->paginate(
+    $size, ['*'], 'p', PaginationInput::page($request->query('p', 1))
+);
+$cursor = Entry::orderBy('id')->cursorPaginate(
+    $size, ['*'], 'after', PaginationInput::cursor($request->query('after'))
+);
+```
+
+这是输入适配，不替换原版 Query Builder、Cursor 解码或分页算法。程序内部可信的显式 Cursor/page/perPage API 保持原有行为，不应把未经校验的外部参数直接传入。
+
 核心仅支持串行处理；会拒绝嵌套/并发请求。未实现 Worker 服务器，也不承诺 Swoole/RoadRunner/协程直接兼容。业务不要在路由闭包、静态字段、持久中间件对象或 Model boot 中保存请求/用户对象。
 
 ## View 与 HTTP
@@ -210,6 +231,8 @@ composer require 'mongodb/mongodb:^2.1'
 
 不带 PHPUnit/Pest/PHPStan，正式源码目录不保留测试脚本。测试套件独立于运行源码；服务器原外部目录 `/www/wuyoo-tests` 当前已不存在，需要验证时另行取得套件并确认脚本路径；`fixtures/Book.php` 仅是外部 SQL/分页夹具。Composer 只保留依赖安装所需的裁剪脚本，没有指向已删除 `tests/` 的命令。
 
+本轮完整外置套件归档为 `/root/wuyoo-backups/pagination-regression-20261027-964b6e1.tar.gz`，解压后的 `tests/` 含上述脚本；可解压到任意项目外目录并调整下方脚本路径，不要求重建 `/www/wuyoo-tests`。
+
 验证前准备项目外的源码副本，安装锁定依赖，排除本机 `config/local.php`、`.env*` 和已有运行数据，并创建空的 `storage/cache/views`、`storage/logs`、`storage/sessions`、`storage/uploads` 目录。设置 `WUYOO_TEST_ROOT` 指向此隔离副本；未设置或路径无效时，测试脚本会明确拒绝执行。以下 `php` 应替换为要验证的 PHP 8.3、8.4 或 8.5 运行时：
 
 ```sh
@@ -220,9 +243,10 @@ php /www/wuyoo-tests/run.php
 php /www/wuyoo-tests/lifecycle.php
 php /www/wuyoo-tests/http.php
 TEST_DB_DRIVER=sqlite php /www/wuyoo-tests/database.php
+php /www/wuyoo-tests/pagination.php
 ```
 
-核心与生命周期共 27 组，HTTP 7 组，SQLite 7 组；SQLite 验证需要 pdo_sqlite。生命周期脚本自行创建并清理独立 SQLite 文件、模板和 Session；其他脚本的缓存、日志和上传均位于指定的隔离源码副本。完成后删除本轮副本。
+核心与生命周期共 27 组，HTTP 7 组，SQLite 7 组，分页输入回归 6 组（含真实 HTTP）；SQLite 与分页回归需要 pdo_sqlite。生命周期脚本自行创建并清理独立 SQLite 文件、模板和 Session；其他脚本的缓存、日志和上传均位于指定的隔离源码副本。完成后删除本轮副本。
 
 真实 SQL 测试必须在**专用隔离实例**运行，只接受 `wuyoo_test_` 开头的数据库名：
 

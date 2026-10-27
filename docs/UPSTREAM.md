@@ -34,6 +34,8 @@ Wuyoo 的 Router / Route 以此 API、占位符及分发语义为基础重新组
 `DB/Model -> Database -> Capsule Manager -> DatabaseManager -> ConnectionFactory -> PDO Connection -> Query/Eloquent Builder -> MySql/Postgres Grammar/Processor`。
 Capsule 自带的 Illuminate Container 仅供上游内部配置和连接工厂使用，不承担 Wuyoo Controller 自动装配。PDO 在首次真正执行 SQL 时连接。
 
+请求分页入口使用 `Http/PaginationInput` 限制页码并提供显式参数校验。`Http/RequestCursor` 是官方 Cursor 的薄子类：保留继承的解码/编码，仅检查方向、标量值和查询实际读取的参数键，将不可信输入错误转为 400；不改写 Builder、Grammar 或分页查询算法。默认 resolver 之外的显式上游参数须由调用方校验。
+
 `tools/prune-upstream.php` 在 Composer `pre-autoload-dump` 阶段执行，物理删除以下外围模块，然后才生成 classmap，避免留下指向已删文件的 classmap：
 
 - `illuminate/database/Console/`

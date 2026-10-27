@@ -2,6 +2,8 @@
 
 审计日期：2026-10-27（Asia/Shanghai）。唯一受审目标：Contabo `vmi3663018:/www/wuyoo`。本轮只新增本报告，不修改框架、配置、vendor、锁文件或已有文档；不提交、Push、部署或启用站点。
 
+> 后续修复状态（2026-10-27）：下文保留审计时事实；R1/R2 的修复和本轮验证见第 8 节。服务器已按后续授权初始化 Git。
+
 ## 1. 总体结论与基线
 
 **现有成果完整，具备受控实际 Web/API 项目试用条件。没有发现需要重新设计架构的理由。** 本轮确认问题为 **P0：0、P1：0、P2：0、P3：2**，均是分页的不可信输入边界；不等同于 F1–F6 正常行为回归失败，也没有证明 SQL 注入、越权或生产数据损坏。
@@ -183,3 +185,29 @@ TEST_DB_DRIVER=sqlite "$PHP_BIN" ../tests/database.php
 4. CI 套件分发、历史文档摘要和进一步性能测量可暂缓；不建议为了抽象层数量或删除依赖文件而改变当前结构。
 
 本报告不改变 `ARCHITECTURE_AUDIT.md` 的历史内容。旧 F1–F6 在当前服务器实现及本轮回归中已关闭；新增两项是独立低优先级输入边界。最终逐文件检查确认仅增加 `docs/FINAL_REVIEW.md`，原有 2232 个文件内容不变，无删除。本轮临时服务均已退出，临时源副本、依赖重建、测试工具、运行时与数据库数据均已清理；正式服务与生产数据库未操作。
+
+
+## 8. 后续修复记录（2026-10-27）
+
+用户在审计完成后明确授权修复并更新服务器 Git。本节记录后续变更，前文的只读审计、无 Git 状态和问题复现均指修复前时间点。
+
+- **R1 已修复（请求游标入口）**：新增 `Http/RequestCursor` 继承官方 Cursor，沿用官方 `fromEncoded`；检查 boolean 方向及非 null 标量参数，在实际 `parameter(name)` 读取时检查查询需要的排序键。因此复合排序和别名无需框架预先猜测，也不全局吞掉 UnexpectedValueException。输入错误返回安全的 400，其他服务器异常仍为 500。
+- **R2 已修复（请求页码入口）**：`Http/PaginationInput::page` 拒绝超过 1,000,000 的页码，防止已复现的极大页码进入 offset 运算。`perPage` 为客户端可选页大小提供 1–1,000 校验；同时使用两项限制时 offset 保持在安全范围。普通缺失/非法/非正页码回第一页不变。
+- Application 的默认/自定义 Request resolver 统一使用以上边界。原版 Builder 的显式 page/perPage/Cursor 参数不被拦截；不可信显式参数应使用 README 的 `PaginationInput` 示例。通用游标结构检查不是数据库列类型验证，业务仍应验证具体数字/日期等字段；没有宣称任意外部 SQL 参数均可直接传递。
+- 未改写 SQL 查询、分页算法、事务或 vendor；未修改生产配置、锁文件或正式 storage。新类通过 PSR-4 正常加载，服务器原依赖目录保持不变。
+
+### 本轮验证
+
+修复前隔离快照三版本均复现 R1；R2 在 8.3.32/8.4.23 返回极大页码但错误首屏数据，在 8.5.8 返回 500。修复后三版本各 **47 组通过**：核心 20、生命周期 7、HTTP 7、SQLite 7、分页输入 6。新增回归覆盖两项原始输入返回 400、正常正反向分页、自定义名称、多列排序、别名、Query/Eloquent、显式参数校验、上限组合和实际 HTTP；无关 UnexpectedValueException 保持 500。
+
+Composer install 在隔离副本从原 lock 执行成功，无依赖变化；三版本平台要求通过；正式源码 38 + 外置 PHP/Blade 12 个文件通过 PHP 8.3 lint；Composer validate 仅有既定精确版本警告。受测副本的三个变更核心文件逐字节与服务器实际文件一致，系统 PHP 8.3.6 还直接验证正式 autoload 下的两个 400 输入边界。
+
+本轮没有重跑 MySQL/PostgreSQL 实库、FPM、Redis/MongoDB 或压测；第 5 节相应通过记录是修复前审计结果，不能计为修复后的测试矩阵。上线前的业务/部署/容量验收要求仍保留。
+
+### Git 与回归材料
+
+- 服务器仓库：`/www/wuyoo/.git`；分支 `codex/pagination-input-fixes`。先提交真实修复前快照 `964b6e1`，再提交修复及文档，保留清晰差异。新仓库不等同于恢复旧本机 Git 历史。
+- Git 使用仓库局部 `Codex <codex@localhost>` 记录本次工作；无远端配置及 Push。vendor、私有 local.php、环境文件及 storage 运行数据保持忽略。
+- 修复前完整备份：`/root/wuyoo-backups/before-pagination-fix-20261027T104305Z.tar.gz`。
+- 可重放的完整外置套件：`/root/wuyoo-backups/pagination-regression-20261027-964b6e1.tar.gz`，含 `tests/pagination.php` 与夹具，使用 `WUYOO_TEST_ROOT` 指向隔离源码；正式目录没有测试文件。
+- 套件 SHA-256：`9866f091fb17ef5a263c4a783c24f70bfd3ff27761e7ded2b2f3891bd6e359c4`。
