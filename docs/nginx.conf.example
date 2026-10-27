@@ -1,0 +1,17 @@
+# Example only: select your hostname and actual PHP 8.5 FPM socket.
+server {
+    listen 80;
+    server_name example.test;
+    root /www/wuyoo/public;
+    index index.php;
+    client_max_body_size 2m;
+    location / { try_files $uri $uri/ /index.php?$query_string; }
+    location = /index.php {
+        include fastcgi_params;
+        fastcgi_param SCRIPT_FILENAME $document_root/index.php;
+        fastcgi_param HTTPS $https if_not_empty;
+        fastcgi_pass unix:/run/php/php8.5-fpm.sock;
+    }
+    location ~ \.php$ { return 404; }
+    location ~ /\. { deny all; }
+}

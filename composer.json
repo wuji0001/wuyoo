@@ -1,0 +1,42 @@
+{
+    "name": "wuyoo/framework",
+    "description": "A small PHP MVC framework with Eloquent and original Blade",
+    "type": "project",
+    "license": "MIT",
+    "require": {
+        "php": "^8.3",
+        "ext-ctype": "*",
+        "ext-fileinfo": "*",
+        "ext-filter": "*",
+        "ext-json": "*",
+        "ext-mbstring": "*",
+        "ext-pdo": "*",
+        "ext-session": "*",
+        "ext-tokenizer": "*",
+        "illuminate/database": "13.38.0",
+        "illuminate/pagination": "13.38.0",
+        "illuminate/view": "13.38.0"
+    },
+    "suggest": {
+        "ext-pdo_mysql": "MySQL connections",
+        "ext-pdo_pgsql": "PostgreSQL connections",
+        "ext-redis": "Optional phpredis cache",
+        "mongodb/mongodb": "Optional MongoDB official library (^2.1), also requires ext-mongodb"
+    },
+    "autoload": {
+        "psr-4": {
+            "Wuyoo\\": "core/",
+            "App\\": "app/"
+        }
+    },
+    "config": {
+        "platform": {
+            "php": "8.3.0"
+        },
+        "sort-packages": true,
+        "optimize-autoloader": true
+    },
+    "scripts": {
+        "pre-autoload-dump": "@php tools/prune-upstream.php"
+    }
+}

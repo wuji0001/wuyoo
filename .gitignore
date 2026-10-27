@@ -1,0 +1,9 @@
+/vendor/
+/.env
+/.env.*
+!/.env.example
+/config/local.php
+/storage/**
+!/storage/**/
+!/storage/**/.gitkeep
+.DS_Store

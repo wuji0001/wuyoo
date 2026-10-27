@@ -1,0 +1,286 @@
+{
+  "laravel/framework": {
+    "version": "v13.38.0",
+    "commit": "c42f9abd4a3d2f9a3cd6be109255ddce8092ceb8"
+  },
+  "NoahBuscher/Macaw": {
+    "commit": "cb439b1fd68bafa38d66306b57633681038d424b",
+    "license": [
+      "MIT"
+    ]
+  },
+  "packages": {
+    "brick/math": {
+      "version": "1.0.0",
+      "commit": "2effe05d2177c451b86c6a073196a4034c02f211",
+      "source": "https://github.com/brick/math.git",
+      "license": [
+        "MIT"
+      ]
+    },
+    "carbonphp/carbon-doctrine-types": {
+      "version": "3.2.1",
+      "commit": "5fa5eacafd9ef47c8c6ab9143fc901ba0194d3dc",
+      "source": "https://github.com/CarbonPHP/carbon-doctrine-types.git",
+      "license": [
+        "MIT"
+      ]
+    },
+    "doctrine/inflector": {
+      "version": "2.1.1",
+      "commit": "46351b6812b7b6d52b82c3efa5dfb786a198ec88",
+      "source": "https://github.com/doctrine/inflector.git",
+      "license": [
+        "MIT"
+      ]
+    },
+    "illuminate/bus": {
+      "version": "v13.38.0",
+      "commit": "3fbc46f5bee06854903d4d1bead21d96f433ffd7",
+      "source": "https://github.com/illuminate/bus.git",
+      "license": [
+        "MIT"
+      ]
+    },
+    "illuminate/collections": {
+      "version": "v13.38.0",
+      "commit": "aa098a584e390e9a066edf02fd1c6976c933fb23",
+      "source": "https://github.com/illuminate/collections.git",
+      "license": [
+        "MIT"
+      ]
+    },
+    "illuminate/conditionable": {
+      "version": "v13.38.0",
+      "commit": "d5f1816d594dd76225352fa44ef358162f05334b",
+      "source": "https://github.com/illuminate/conditionable.git",
+      "license": [
+        "MIT"
+      ]
+    },
+    "illuminate/container": {
+      "version": "v13.38.0",
+      "commit": "573f22dcaeec1748a57d4f47b4e7147845a5112a",
+      "source": "https://github.com/illuminate/container.git",
+      "license": [
+        "MIT"
+      ]
+    },
+    "illuminate/contracts": {
+      "version": "v13.38.0",
+      "commit": "1d2b764e1b11d56bbe4a987fcc312f84eb370c65",
+      "source": "https://github.com/illuminate/contracts.git",
+      "license": [
+        "MIT"
+      ]
+    },
+    "illuminate/database": {
+      "version": "v13.38.0",
+      "commit": "add3b4602c77c38edbee26be9ab55e7eec621182",
+      "source": "https://github.com/illuminate/database.git",
+      "license": [
+        "MIT"
+      ]
+    },
+    "illuminate/events": {
+      "version": "v13.38.0",
+      "commit": "26b53889ae87a0e8bead87c48b8b9fff71fed547",
+      "source": "https://github.com/illuminate/events.git",
+      "license": [
+        "MIT"
+      ]
+    },
+    "illuminate/filesystem": {
+      "version": "v13.38.0",
+      "commit": "399ba4c3adb954f197853a207199d401dc27aec2",
+      "source": "https://github.com/illuminate/filesystem.git",
+      "license": [
+        "MIT"
+      ]
+    },
+    "illuminate/macroable": {
+      "version": "v13.38.0",
+      "commit": "819da7c238593c2a6f64f8cc09fb9526928736d2",
+      "source": "https://github.com/illuminate/macroable.git",
+      "license": [
+        "MIT"
+      ]
+    },
+    "illuminate/pagination": {
+      "version": "v13.38.0",
+      "commit": "70b0a7bd9eee7362782714ed3f435a3f03a84289",
+      "source": "https://github.com/illuminate/pagination.git",
+      "license": [
+        "MIT"
+      ]
+    },
+    "illuminate/pipeline": {
+      "version": "v13.38.0",
+      "commit": "1ec578fb5656727b8d7d967a7fb44041b196f591",
+      "source": "https://github.com/illuminate/pipeline.git",
+      "license": [
+        "MIT"
+      ]
+    },
+    "illuminate/reflection": {
+      "version": "v13.38.0",
+      "commit": "a4e899496e3c4952fe5082f8d71512be7177add8",
+      "source": "https://github.com/illuminate/reflection.git",
+      "license": [
+        "MIT"
+      ]
+    },
+    "illuminate/support": {
+      "version": "v13.38.0",
+      "commit": "60bec529f7ddf433ad649f2df95e5e55c685fe47",
+      "source": "https://github.com/illuminate/support.git",
+      "license": [
+        "MIT"
+      ]
+    },
+    "illuminate/view": {
+      "version": "v13.38.0",
+      "commit": "91e08653f191bd08c85d53de0fd4059ea1a547c9",
+      "source": "https://github.com/illuminate/view.git",
+      "license": [
+        "MIT"
+      ]
+    },
+    "laravel/serializable-closure": {
+      "version": "v2.1.0",
+      "commit": "2d5869a838bbcf37e0d8b0568fc41914e81374b5",
+      "source": "https://github.com/laravel/serializable-closure.git",
+      "license": [
+        "MIT"
+      ]
+    },
+    "nesbot/carbon": {
+      "version": "3.15.1",
+      "commit": "ce0e5636fae7d1e99856eb70cae4c719a284aa08",
+      "source": "https://github.com/CarbonPHP/carbon.git",
+      "license": [
+        "MIT"
+      ]
+    },
+    "psr/clock": {
+      "version": "1.0.0",
+      "commit": "e41a24703d4560fd0acb709162f73b8adfc3aa0d",
+      "source": "https://github.com/php-fig/clock.git",
+      "license": [
+        "MIT"
+      ]
+    },
+    "psr/container": {
+      "version": "2.0.2",
+      "commit": "c71ecc56dfe541dbd90c5360474fbc405f8d5963",
+      "source": "https://github.com/php-fig/container.git",
+      "license": [
+        "MIT"
+      ]
+    },
+    "psr/simple-cache": {
+      "version": "3.0.0",
+      "commit": "764e0b3939f5ca87cb904f570ef9be2d78a07865",
+      "source": "https://github.com/php-fig/simple-cache.git",
+      "license": [
+        "MIT"
+      ]
+    },
+    "symfony/clock": {
+      "version": "v7.4.21",
+      "commit": "07437f612dca89c1894c1db04491002b1e798f03",
+      "source": "https://github.com/symfony/clock.git",
+      "license": [
+        "MIT"
+      ]
+    },
+    "symfony/deprecation-contracts": {
+      "version": "v3.7.1",
+      "commit": "f3202fa1b5097b0af062dc978b32ecf63404e31d",
+      "source": "https://github.com/symfony/deprecation-contracts.git",
+      "license": [
+        "MIT"
+      ]
+    },
+    "symfony/finder": {
+      "version": "v7.4.20",
+      "commit": "2dd31e5208db7a0fda7bfc998ad727b79c2e4d1e",
+      "source": "https://github.com/symfony/finder.git",
+      "license": [
+        "MIT"
+      ]
+    },
+    "symfony/polyfill-mbstring": {
+      "version": "v1.43.0",
+      "commit": "4d5d331bf731e0aedbc6b2f5e61135b7b7996a72",
+      "source": "https://github.com/symfony/polyfill-mbstring.git",
+      "license": [
+        "MIT"
+      ]
+    },
+    "symfony/polyfill-php83": {
+      "version": "v1.43.0",
+      "commit": "80ccff923a8d61f73ebe9da0aa94e25232f004ce",
+      "source": "https://github.com/symfony/polyfill-php83.git",
+      "license": [
+        "MIT"
+      ]
+    },
+    "symfony/polyfill-php84": {
+      "version": "v1.43.0",
+      "commit": "22c6548499cbe5c5bb072fc0c42312dff062a015",
+      "source": "https://github.com/symfony/polyfill-php84.git",
+      "license": [
+        "MIT"
+      ]
+    },
+    "symfony/polyfill-php85": {
+      "version": "v1.43.0",
+      "commit": "86a42cbcc07adc331481a5ab310a4024bfc227f6",
+      "source": "https://github.com/symfony/polyfill-php85.git",
+      "license": [
+        "MIT"
+      ]
+    },
+    "symfony/polyfill-php86": {
+      "version": "v1.43.0",
+      "commit": "8840df45b24f33a49dc419fa18dc0057231ae1d8",
+      "source": "https://github.com/symfony/polyfill-php86.git",
+      "license": [
+        "MIT"
+      ]
+    },
+    "symfony/polyfill-time": {
+      "version": "v1.42.0",
+      "commit": "ac9f1ed802dd58f37e720388130c088434aa09fc",
+      "source": "https://github.com/symfony/polyfill-time.git",
+      "license": [
+        "MIT"
+      ]
+    },
+    "symfony/translation": {
+      "version": "v7.4.17",
+      "commit": "2ee1e4a3b32a528a642babe041ff7c440b213b4b",
+      "source": "https://github.com/symfony/translation.git",
+      "license": [
+        "MIT"
+      ]
+    },
+    "symfony/translation-contracts": {
+      "version": "v3.7.1",
+      "commit": "ccb206b98faccc511ebae8e5fad50f2dc0b30621",
+      "source": "https://github.com/symfony/translation-contracts.git",
+      "license": [
+        "MIT"
+      ]
+    },
+    "voku/portable-ascii": {
+      "version": "2.1.1",
+      "commit": "8e1051fe39379367aecf014f41744ce7539a856f",
+      "source": "https://github.com/voku/portable-ascii.git",
+      "license": [
+        "MIT"
+      ]
+    }
+  }
+}
