@@ -2,6 +2,8 @@
 
 轻量 PHP MVC 框架：实例路由、请求级依赖注入、Eloquent 13、原版 Blade。最低 PHP **8.3**，推荐生产 PHP **8.5**。不依赖完整 Laravel Framework。
 
+完整开发指南见 [Wuyoo 使用手册](docs/USAGE.md)。
+
 ## 启动
 
 需要 Composer 2，以及 ctype、fileinfo、filter、json、mbstring、PDO、session、tokenizer 扩展。MySQL 加 pdo_mysql，PostgreSQL 加 pdo_pgsql。
