@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 $root = dirname(__DIR__).'/vendor/illuminate/database/';
 $paths = ['Console', 'Migrations', 'Eloquent/Factories', 'Seeder.php', 'DatabaseServiceProvider.php'];
 $remove = function (string $path) use (&$remove): void {
