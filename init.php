@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 if (PHP_VERSION_ID < 80300) { throw new RuntimeException('Wuyoo requires PHP 8.3 or later'); }
 require __DIR__.'/vendor/autoload.php';
 
